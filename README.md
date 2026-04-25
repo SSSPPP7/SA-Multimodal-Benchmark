@@ -53,5 +53,3 @@ python train.py --config configs/default.yaml --test-subject S01 --run-dir runs/
 python evaluate.py --checkpoint runs/fold_S01/best.pt --config configs/default.yaml --test-subject S01
 python loso_cv.py --config configs/default.yaml --out-dir runs/loso
 ```
-
-The repository does not include data files or stored experiment results.
