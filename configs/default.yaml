@@ -1,0 +1,47 @@
+seed: 42
+project_name: MDF_SACN
+output_dir: runs/mdf_sacn
+
+data:
+  processed_npz: data/processed/mdf_sacn_samples.npz
+  expected_subjects: 31
+  val_ratio_subjects: 0.2
+  num_workers: 0
+  pin_memory: true
+  levels: [sa1, sa2, sa3]
+
+model:
+  eeg_channels: 32
+  em_channels: 6
+  input_time: 500
+  hidden_dim: 64
+  dropout: 0.2
+  eeg_kernels_block1: [64, 32, 16, 8]
+  eeg_kernels_block3: [16, 8, 4, 2]
+  eeg_branch_channels: 16
+  eye_conv_channels: 64
+  cross_attn_heads: 1
+  cross_attn_dim: 64
+  level_emb_dim: 16
+  fusion_mlp_hidden: 16
+  hptc_hidden_dim: 64
+
+loss:
+  lambda_main: 1.0
+  lambda_aux: 0.3
+  lambda_cg: 0.1
+  contribution_detach: true
+  eps: 1.0e-8
+
+train:
+  device: auto
+  batch_size: 16
+  epochs: 300
+  lr: 1.0e-3
+  weight_decay: 0.01
+  beta1: 0.9
+  beta2: 0.999
+  adam_eps: 1.0e-8
+  early_stop_patience: 20
+  threshold: 0.5
+  grad_clip_norm: 5.0
