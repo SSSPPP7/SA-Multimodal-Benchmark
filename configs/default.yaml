@@ -1,0 +1,63 @@
+seed: 42
+
+data:
+  processed_npz: data/processed/mdf_sacn_samples.npz
+  eeg_key: eeg
+  em_key: em
+  subject_key: subject_id
+  probe_key: probe_id
+  y_rec_key: y_rec
+  y_pred_key: y_pred
+  mask_pred_key: mask_pred
+  mask_rec_key: mask_rec
+  eeg_channels: 32
+  em_channels: 6
+  seq_len: 500
+  num_levels: 3
+
+model:
+  eeg_channels: 32
+  em_channels: 6
+  feature_dim: 32
+  dropout: 0.2
+  cross_attn_heads: 1
+  cross_attn_dim: 64
+  level_emb_dim: 16
+  fusion_mlp_hidden: 16
+  hptm_hidden_dim: 64
+  num_levels: 3
+
+loss:
+  lambda_pred: 1.0
+  lambda_uni: 0.3
+  lambda_cg: 0.1
+  eps: 1.0e-8
+  detach_contribution: false
+
+train:
+  batch_size: 32
+  epochs: 200
+  lr: 1.0e-3
+  weight_decay: 0.01
+  beta1: 0.9
+  beta2: 0.999
+  adam_eps: 1.0e-8
+  early_stop_patience: 20
+  num_workers: 0
+  device: auto
+  save_predictions: true
+
+validation:
+  strategy: subject_holdout
+  num_val_subjects: 1
+  explicit_val_subjects: []
+
+analysis:
+  sliding_window:
+    window_size: 500
+    step_size: 100
+    batch_size: 64
+  granger:
+    max_lag: 5
+    correction: fdr_bh
+    alpha: 0.05
